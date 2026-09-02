@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Кибер Приложение - 4 "А"</title>
+    <style>
+        :root {
+            --bg-color: #05050a;
+            --panel-bg: rgba(0, 255, 204, 0.05);
+            --neon-green: #00ffcc;
+            --neon-pink: #ff007f;
+            --neon-yellow: #f3e600;
+            --text-color: #c0c0d0;
+            --border-color: rgba(0, 255, 204, 0.3);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Courier New', Courier, monospace;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            overflow-x: hidden;
+        }
+
+        /* Кибер-сетка на заднем фоне */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+            z-index: -1;
+            background-size: 100% 4px, 6px 100%;
+            pointer-events: none;
+        }
+
+        /* Последние новости вверху */
+        .news-ticker {
+            width: 100%;
+            max-width: 800px;
+            background: var(--panel-bg);
+            border: 1px solid var(--neon-pink);
+            box-shadow: 0 0 15px rgba(255, 0, 127, 0.2);
+            padding: 12px 20px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            border-radius: 4px;
+        }
+
+        .news-title {
+            color: var(--neon-pink);
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            white-space: nowrap;
+            text-shadow: 0 0 8px var(--neon-pink);
+        }
+
+        .news-content {
+            overflow: hidden;
+            white-space: nowrap;
+            width: 100%;
+        }
+
+        .news-track {
+            display: inline-block;
+            animation: scrollNews 15s linear infinite;
+            color: var(--neon-green);
+        }
+
+        @keyframes scrollNews {
+            0% { transform: translateX(100%); }
+            100% { transform: translateX(-100%); }
+        }
+
+        /* Основной контейнер приложения */
+        .app-container {
+            width: 100%;
+            max-width: 800px;
+            background: var(--panel-bg);
+            border: 1px solid var(--neon-green);
+            box-shadow: 0 0 20px rgba(0, 255, 204, 0.15);
+            padding: 30px;
+            border-radius: 6px;
+            text-align: center;
+        }
+
+        h1 {
+            color: var(--neon-green);
+            font-size: 2.3rem;
+            margin-bottom: 5px;
+            text-shadow: 0 0 10px rgba(0, 255, 204, 0.5);
+            letter-spacing: 3px;
+        }
+
+        .subtitle {
+            color: var(--text-color);
+            margin-bottom: 25px;
+            font-size: 1rem;
+        }
+
+        /* Блоки и панели */
+        .cyber-panel {
+            border: 1px dashed var(--border-color);
+            padding: 20px;
+            margin-top: 15px;
+            background: rgba(0,0,0,0.3);
+            border-radius: 4px;
+        }
+
+        .cyber-btn {
+            background: transparent;
+            color: var(--neon-green);
+            border: 1px solid var(--neon-green);
+            padding: 10px 20px;
+            font-size: 1rem;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 5px rgba(0, 255, 204, 0.2);
+            margin-top: 10px;
+            border-radius: 3px;
+            z-index: 10;
+            position: relative;
+        }
+
+        .cyber-btn:hover {
+            background: var(--neon-green);
+            color: var(--bg-color);
+            box-shadow: 0 0 15px var(--neon-green);
+        }
+
+        .danger-btn {
+            color: var(--neon-pink);
+            border-color: var(--neon-pink);
+        }
+        .danger-btn:hover {
+            background: var(--neon-pink);
+            color: var(--bg-color);
+            box-shadow: 0 0 15px var(--neon-pink);
+        }
+
+        /* Выпадающий список и инпуты в кибер-стиле */
+        .cyber-select, .cyber-input {
+            background: #05050a;
+            color: var(--neon-green);
+            border: 1px solid var(--neon-green);
+            padding: 10px;
+            font-size: 1rem;
+            width: 100%;
+            max-width: 300px;
+            margin-bottom: 15px;
+            outline: none;
+            cursor: pointer;
+            border-radius: 3px;
+            box-shadow: 0 0 5px rgba(0, 255, 204, 0.2);
+            position: relative;
+            z-index: 10;
+        }
+
+        .cyber-input {
+            cursor: text;
+        }
+
+        /* Секция отличников */
+        .hall-of-fame {
+            margin-top: 20px;
+            text-align: left;
+        }
+
+        .year-block {
+            margin-bottom: 15px;
+            border-left: 3px solid var(--neon-yellow);
+            padding-left: 10px;
+        }
+
+        .year-title {
+            color: var(--neon-yellow);
+            font-weight: bold;
+            font-size: 1.1rem;
+            margin-bottom: 5px;
+            text-shadow: 0 0 5px rgba(243, 230, 0, 0.4);
+        }
+
+        .place-item {
+            font-size: 0.95rem;
+            margin: 3px 0;
+            color: var(--text-color);
+        }
+        .place-item span {
+            color: var(--neon-green);
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        #output {
+            margin-top: 15px;
+            color: var(--neon-pink);
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Блок новостей вверху -->
+    <div class="news-ticker">
+        <span class="news-title">[ NEWS ]:</span>
+        <div class="news-content">
+            <span class="news-track">
+                ⚡ 31 мая: Ура каникулы! &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ⚡ 1 сентября: Лень знаний!
+            </span>
+        </div>
+    </div>
+
+    <!-- Основной контейнер приложения -->
+    <div class="app-container">
+        <h1>КЛАСС 4 "А"</h1>
+        <div class="subtitle">// КИБЕР-ТЕРМИНАЛ УПРАВЛЕНИЯ</div>
+        
+        <!-- ЭКРАН ВХОДА -->
+        <div id="login-screen" class="cyber-panel">
+            <p style="margin-bottom: 15px; color: var(--neon-green);">ИДЕНТИФИКАЦИЯ ПОЛЬЗОВАТЕЛЯ:</p>
+            
+            <select id="surname-select" class="cyber-select" onchange="checkTeacherSelection()">
+                <option value="" selected>-- ВЫБЕРИТЕ ФАМИЛИЮ --</option>
+                <optgroup label="Учитель">
+                    <option value="Валерия Алексеевна">Валерия Алексеевна (Учитель)</option>
+                </optgroup>
+                <optgroup label="Ученики">
+                    <option value="Быркина">Быркина</option>
+                    <option value="Полякова">Полякова</option>
+                    <option value="Махматебинова">Махматебинова</option>
+                    <option value="Амелин">Амелин</option>
+                    <option value="Мильцина">Мильцина</option>
+                    <option value="Тимохина">Тимохина</option>
+                    <option value="Зайцева">Зайцева</option>
+                    <option value="Макарова">Макарова</option>
+                    <option value="Глазков">Глазков</option>
+                    <option value="Симонов">Симонов</option>
+                    <option value="Лапшенков">Лапшенков</option>
+                    <option value="Берлов">Берлов</option>
+                    <option value="Ильинов">Ильинов</option>
+                    <option value="Бутов">Бутов</option>
+                    <option value="Безгубова">Безгубова</option>
+                    <option value="Сотникова">Сотникова</option>
+                    <option value="Курбанова">Курбанова</option>
+                    <option value="Лукашеивич">Лукашеивич</option>
+                </optgroup>
+            </select>
+            <br>
+
+            <!-- Поле для ввода кода (скрыто по умолчанию, показывается если выбрана учительница) -->
+            <div id="code-container" class="hidden">
+                <p style="margin-bottom: 8px; color: var(--neon-yellow); font-size: 0.9rem;">ВВЕДИТЕ КОД ДОСТУПА:</p>
+                <input type="password" id="access-code" class="cyber-input" placeholder="Код доступа">
+                <br>
+            </div>
+
+            <button class="cyber-btn" type="button" onclick="loginUser()">Войти в систему</button>
+        </div>
+
+        <!-- ГЛАВНЫЙ ЭКРАН (после входа) -->
+        <div id="main-screen" class="hidden">
+            <div class="cyber-panel">
+                <p>Добро пожаловать в систему, агент: <span id="user-display" style="color: var(--neon-yellow); font-weight: bold;"></span></p>
+                <button class="cyber-btn" type="button" onclick="activateSystem()">Проверить статус 4 "А"</button>
+                <div id="output"></div>
+            </div>
+
+            <!-- ЗАЛ СЛАВЫ (Отличники по годам) -->
+            <div class="cyber-panel hall-of-fame">
+                <p style="color: var(--neon-yellow); margin-bottom: 15px; text-align: center; text-transform: uppercase; letter-spacing: 1px;">// Зал славы: Отличники года</p>
+                
+                <!-- 2023 -->
+                <div class="year-block">
+                    <div class="year-title">2023 ГОД</div>
+                    <div class="place-item">1 место: <span>Быркина</span></div>
+                    <div class="place-item">2 место: <span>Бутов</span></div>
+                    <div class="place-item">3 место: <span>???</span></div>
+                </div>
+
+                <!-- 2024 -->
+                <div class="year-block">
+                    <div class="year-title">2024 ГОД</div>
+                    <div class="place-item">1 место: <span>Быркина</span></div>
+                    <div class="place-item">2 место: <span>Бутов</span></div>
+                    <div class="place-item">3 место: <span>???</span></div>
+                </div>
+
+                <!-- 2025 -->
+                <div class="year-block">
+                    <div class="year-title">2025 ГОД</div>
+                    <div class="place-item">1 место: <span>Быркина</span></div>
+                    <div class="place-item">2 место: <span>???</span></div>
+                    <div class="place-item">3 место: <span>???</span></div>
+                </div>
+
+                <!-- 2026 -->
+                <div class="year-block">
+                    <div class="year-title">2026 ГОД</div>
+                    <div class="place-item">1 место: <span>Быркина</span></div>
+                    <div class="place-item">2 место: <span>Бутов / Юля</span></div>
+                    <div class="place-item">3 место: <span>???</span></div>
+                </div>
+            </div>
+
+            <button class="cyber-btn danger-btn" type="button" onclick="logoutUser()" style="margin-top: 25px;">Сменить пользователя</button>
+        </div>
+    </div>
+
+    <script>
+        // Проверка при загрузке страницы: заходил ли пользователь раньше
+        window.onload = function() {
+            const savedUser = localStorage.getItem("cyber_user_4a");
+            if (savedUser) {
+                showMainScreen(savedUser);
+            }
+        };
+
+        // Показ поля ввода кода, если выбрана Валерия Алексеевна
+        function checkTeacherSelection() {
+            const select = document.getElementById("surname-select");
+            const codeContainer = document.getElementById("code-container");
+            
+            if (select.value === "Валерия Алексеевна") {
+                codeContainer.classList.remove("hidden");
+            } else {
+                codeContainer.classList.add("hidden");
+                document.getElementById("access-code").value = "";
+            }
+        }
+
+        // Функция входа
+        function loginUser() {
+            const select = document.getElementById("surname-select");
+            const selectedValue = select.value;
+
+            if (!selectedValue) {
+                alert("Ошибка: выберите фамилию или учителя из списка!");
+                return;
+            }
+
+            // Проверка кода для учителя
+            if (selectedValue === "Валерия Алексеевна") {
+                const codeInput = document.getElementById("access-code").value;
+                if (codeInput !== "4А359") {
+                    alert("Ошибка: неверный код доступа!");
+                    return;
+                }
+            }
+
+            // Сохраняем в память браузера
+            localStorage.setItem("cyber_user_4a", selectedValue);
+            showMainScreen(selectedValue);
+        }
+
+        // Показать главный экран и скрыть логин
+        function showMainScreen(username) {
+            document.getElementById("login-screen").classList.add("hidden");
+            document.getElementById("main-screen").classList.remove("hidden");
+            document.getElementById("user-display").innerText = username;
+        }
+
+        // Функция выхода (сброс данных)
+        function logoutUser() {
+            localStorage.removeItem("cyber_user_4a");
+            document.getElementById("main-screen").classList.add("hidden");
+            document.getElementById("login-screen").classList.remove("hidden");
+            document.getElementById("surname-select").value = "";
+            document.getElementById("code-container").classList.add("hidden");
+            document.getElementById("access-code").value = "";
+            document.getElementById("output").innerText = "";
+        }
+
+        // Кнопка статуса класса
+        function activateSystem() {
+            const messages = [
+                "4 'А' готов к захвату школы!",
+                "Уровень крутизны класса: 100%",
+                "Внимание: обнаружен высокий уровень позитива!",
+                "Системы каникул работают стабильно."
+            ];
+            
+            const randomMsg = messages[Math.floor(Math.random() * messages.length)];
+            const outputDiv = document.getElementById("output");
+            
+            outputDiv.style.opacity = 0;
+            outputDiv.innerText = `> ${randomMsg}`;
+            
+            setTimeout(() => {
+                outputDiv.style.transition = "opacity 0.5s";
+                outputDiv.style.opacity = 1;
+            }, 50);
+        }
+    </script>
+</body>
+</html>
