@@ -6,13 +6,13 @@
     <title>Кибер Приложение - 4 "А"</title>
     <style>
         :root {
-            --bg-color: #05050a;
-            --panel-bg: rgba(0, 255, 204, 0.05);
+            --bg-color: #030308;
+            --panel-bg: rgba(0, 255, 204, 0.03);
             --neon-green: #00ffcc;
-            --neon-pink: #ff007f;
+            --neon-pink: #ff0055;
             --neon-yellow: #f3e600;
-            --text-color: #c0c0d0;
-            --border-color: rgba(0, 255, 204, 0.3);
+            --text-color: #d0d0e0;
+            --border-color: rgba(0, 255, 204, 0.25);
         }
 
         * {
@@ -29,34 +29,35 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            padding: 20px;
+            padding: 15px;
             overflow-x: hidden;
+            position: relative;
         }
 
-        /* Кибер-сетка на заднем фоне */
         body::before {
             content: "";
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
-            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.3) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.03), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.03));
             z-index: -1;
-            background-size: 100% 4px, 6px 100%;
+            background-size: 100% 3px, 4px 100%;
             pointer-events: none;
         }
 
-        /* Последние новости вверху */
         .news-ticker {
             width: 100%;
-            max-width: 800px;
+            max-width: 900px;
             background: var(--panel-bg);
             border: 1px solid var(--neon-pink);
-            box-shadow: 0 0 15px rgba(255, 0, 127, 0.2);
-            padding: 12px 20px;
-            margin-bottom: 20px;
+            box-shadow: 0 0 15px rgba(255, 0, 85, 0.15);
+            padding: 10px 15px;
+            margin-bottom: 15px;
             display: flex;
             align-items: center;
             gap: 15px;
             border-radius: 4px;
+            position: relative;
+            z-index: 1;
         }
 
         .news-title {
@@ -85,21 +86,139 @@
             100% { transform: translateX(-100%); }
         }
 
-        /* Основной контейнер приложения */
+        .nav-panel {
+            width: 100%;
+            max-width: 900px;
+            display: flex;
+            justify-content: space-between;
+            gap: 8px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            position: relative;
+            z-index: 2;
+        }
+
+        .nav-btn {
+            flex: 1;
+            min-width: 80px;
+            background: var(--panel-bg);
+            border: 1px solid var(--neon-yellow);
+            color: var(--neon-yellow);
+            padding: 8px 5px;
+            text-align: center;
+            cursor: pointer;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            transition: all 0.3s;
+            border-radius: 3px;
+        }
+
+        .nav-btn:hover {
+            background: var(--neon-yellow);
+            color: var(--bg-color);
+            box-shadow: 0 0 12px var(--neon-yellow);
+        }
+
+        .nav-btn.ai-tab-btn {
+            border-color: var(--neon-green);
+            color: var(--neon-green);
+        }
+        .nav-btn.ai-tab-btn:hover {
+            background: var(--neon-green);
+            color: var(--bg-color);
+            box-shadow: 0 0 12px var(--neon-green);
+        }
+
+        .modal {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(3, 3, 8, 0.85);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 100;
+        }
+
+        .modal-content {
+            background: var(--bg-color);
+            border: 2px solid var(--neon-yellow);
+            padding: 30px;
+            width: 90%;
+            max-width: 500px;
+            border-radius: 6px;
+            text-align: center;
+            box-shadow: 0 0 25px rgba(243, 230, 0, 0.3);
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .modal-title {
+            color: var(--neon-yellow);
+            font-size: 1.4rem;
+            margin-bottom: 15px;
+            text-shadow: 0 0 8px rgba(243, 230, 0, 0.5);
+        }
+
+        .modal-body {
+            text-align: left;
+            margin-bottom: 20px;
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        .clickable-student {
+            color: var(--neon-green);
+            font-weight: bold;
+            cursor: pointer;
+            text-decoration: underline;
+            padding: 2px 4px;
+            border-radius: 3px;
+            transition: all 0.2s ease;
+            display: inline-block;
+        }
+
+        .clickable-student:hover {
+            background: var(--neon-green);
+            color: var(--bg-color);
+            box-shadow: 0 0 8px var(--neon-green);
+        }
+
+        /* Стиль таблички "Отличник" */
+        .excellent-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            background: rgba(243, 230, 0, 0.15);
+            border: 1px solid var(--neon-yellow);
+            color: var(--neon-yellow);
+            padding: 2px 8px;
+            font-size: 0.75rem;
+            font-weight: bold;
+            border-radius: 4px;
+            margin-left: 8px;
+            text-shadow: 0 0 5px var(--neon-yellow);
+            box-shadow: 0 0 8px rgba(243, 230, 0, 0.3);
+            vertical-align: middle;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
         .app-container {
             width: 100%;
-            max-width: 800px;
+            max-width: 900px;
             background: var(--panel-bg);
             border: 1px solid var(--neon-green);
             box-shadow: 0 0 20px rgba(0, 255, 204, 0.15);
-            padding: 30px;
+            padding: 25px;
             border-radius: 6px;
             text-align: center;
+            position: relative;
+            z-index: 1;
         }
 
         h1 {
             color: var(--neon-green);
-            font-size: 2.3rem;
+            font-size: 2.2rem;
             margin-bottom: 5px;
             text-shadow: 0 0 10px rgba(0, 255, 204, 0.5);
             letter-spacing: 3px;
@@ -108,10 +227,9 @@
         .subtitle {
             color: var(--text-color);
             margin-bottom: 25px;
-            font-size: 1rem;
+            font-size: 0.95rem;
         }
 
-        /* Блоки и панели */
         .cyber-panel {
             border: 1px dashed var(--border-color);
             padding: 20px;
@@ -125,16 +243,14 @@
             color: var(--neon-green);
             border: 1px solid var(--neon-green);
             padding: 10px 20px;
-            font-size: 1rem;
+            font-size: 0.95rem;
             cursor: pointer;
             text-transform: uppercase;
             letter-spacing: 1px;
             transition: all 0.3s ease;
             box-shadow: 0 0 5px rgba(0, 255, 204, 0.2);
-            margin-top: 10px;
             border-radius: 3px;
-            z-index: 10;
-            position: relative;
+            margin-top: 10px;
         }
 
         .cyber-btn:hover {
@@ -153,9 +269,8 @@
             box-shadow: 0 0 15px var(--neon-pink);
         }
 
-        /* Выпадающий список и инпуты в кибер-стиле */
         .cyber-select, .cyber-input {
-            background: #05050a;
+            background: #030308;
             color: var(--neon-green);
             border: 1px solid var(--neon-green);
             padding: 10px;
@@ -164,44 +279,157 @@
             max-width: 300px;
             margin-bottom: 15px;
             outline: none;
-            cursor: pointer;
             border-radius: 3px;
-            box-shadow: 0 0 5px rgba(0, 255, 204, 0.2);
-            position: relative;
-            z-index: 10;
         }
 
-        .cyber-input {
-            cursor: text;
+        .ai-chat-box {
+            display: flex;
+            flex-direction: column;
+            height: 380px;
+            border: 1px solid var(--neon-green);
+            background: rgba(1, 1, 5, 0.8);
+            border-radius: 4px;
+            margin-top: 15px;
+            overflow: hidden;
         }
 
-        /* Секция отличников */
-        .hall-of-fame {
-            margin-top: 20px;
+        .ai-messages-area {
+            flex: 1;
+            padding: 15px;
+            overflow-y: auto;
+            text-align: left;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .ai-message {
+            padding: 10px 14px;
+            border-radius: 4px;
+            max-width: 85%;
+            font-size: 0.9rem;
+            line-height: 1.4;
+            word-break: break-word;
+        }
+
+        .ai-message.user {
+            background: rgba(0, 255, 204, 0.1);
+            border: 1px solid var(--neon-green);
+            color: var(--neon-green);
+            align-self: flex-end;
+        }
+
+        .ai-message.bot {
+            background: rgba(255, 0, 85, 0.08);
+            border: 1px solid var(--neon-pink);
+            color: var(--text-color);
+            align-self: flex-start;
+        }
+
+        .ai-message.bot.error-msg {
+            border-color: var(--neon-pink);
+            color: var(--neon-pink);
+            font-weight: bold;
+            text-transform: uppercase;
+            box-shadow: 0 0 10px rgba(255, 0, 85, 0.3);
+        }
+
+        .ai-input-area {
+            display: flex;
+            padding: 10px;
+            background: #030308;
+            border-top: 1px solid var(--border-color);
+            gap: 10px;
+        }
+
+        .ai-input-area input {
+            flex: 1;
+            max-width: none;
+            margin-bottom: 0;
+        }
+
+        .notification-box {
+            background: rgba(255, 0, 85, 0.1);
+            border: 1px solid var(--neon-pink);
+            padding: 12px;
+            margin-bottom: 15px;
+            border-radius: 4px;
+            color: var(--neon-yellow);
+            font-size: 0.9rem;
             text-align: left;
         }
 
-        .year-block {
-            margin-bottom: 15px;
-            border-left: 3px solid var(--neon-yellow);
-            padding-left: 10px;
+        .grades-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+            font-size: 0.85rem;
         }
 
-        .year-title {
+        .grades-table th, .grades-table td {
+            border: 1px solid var(--border-color);
+            padding: 6px 8px;
+            text-align: left;
+        }
+
+        .grades-table th {
             color: var(--neon-yellow);
-            font-weight: bold;
-            font-size: 1.1rem;
-            margin-bottom: 5px;
-            text-shadow: 0 0 5px rgba(243, 230, 0, 0.4);
+            background: rgba(0,255,204,0.05);
         }
 
-        .place-item {
-            font-size: 0.95rem;
-            margin: 3px 0;
-            color: var(--text-color);
+        #game-container {
+            position: relative;
+            width: 100%;
+            height: 250px;
+            background: #010104;
+            border: 1px solid var(--neon-green);
+            overflow: hidden;
+            margin-top: 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            touch-action: manipulation;
         }
-        .place-item span {
-            color: var(--neon-green);
+
+        #game-canvas {
+            width: 100%;
+            height: 100%;
+            display: block;
+        }
+
+        .game-ui {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 12px;
+            font-size: 0.95rem;
+            color: var(--neon-yellow);
+        }
+
+        .shop-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .skin-card {
+            background: rgba(0,0,0,0.5);
+            border: 1px solid var(--border-color);
+            padding: 10px;
+            border-radius: 4px;
+            text-align: center;
+        }
+
+        .skin-card.active {
+            border-color: var(--neon-green);
+            box-shadow: 0 0 10px rgba(0, 255, 204, 0.3);
+        }
+
+        .skin-preview {
+            width: 24px;
+            height: 38px;
+            margin: 5px auto;
+            border-radius: 2px;
         }
 
         .hidden {
@@ -217,22 +445,112 @@
 </head>
 <body>
 
-    <!-- Блок новостей вверху -->
     <div class="news-ticker">
-        <span class="news-title">[ NEWS ]:</span>
+        <span class="news-title">[ НОВОСТИ ]:</span>
         <div class="news-content">
             <span class="news-track">
-                ⚡ 31 мая: Ура каникулы! &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ⚡ 1 сентября: Лень знаний!
+                ⚡ 31 мая: Ура каникулы! &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ⚡ 1 сентября: День знаний! &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ⚡ Добавлена вкладка ИИ-репетитора для сложных тем!
             </span>
         </div>
     </div>
 
-    <!-- Основной контейнер приложения -->
+    <div class="nav-panel">
+        <button class="nav-btn" type="button" onclick="openYear(2023)">2023 год</button>
+        <button class="nav-btn" type="button" onclick="openYear(2024)">2024 год</button>
+        <button class="nav-btn" type="button" onclick="openYear(2025)">2025 год</button>
+        <button class="nav-btn" type="button" onclick="openYear(2026)">2026 год</button>
+        <button class="nav-btn ai-tab-btn" type="button" onclick="openAITab()">🤖 ИИ-Репетитор</button>
+    </div>
+
+    <div id="year-modal" class="modal hidden">
+        <div class="modal-content">
+            <div id="modal-year-title" class="modal-title">ГОД</div>
+            <div id="modal-year-body" class="modal-body"></div>
+            <button class="cyber-btn" type="button" onclick="closeModal('year-modal')">Закрыть</button>
+        </div>
+    </div>
+
+    <div id="ai-modal" class="modal hidden">
+        <div class="modal-content" style="max-width: 650px; height: 85vh; display: flex; flex-direction: column;">
+            <div class="modal-title" style="margin-bottom: 5px;">// ИИ-РЕПЕТИТОР 4 "А"</div>
+            <p style="font-size: 0.8rem; color: var(--text-color); margin-bottom: 10px;">Задайте вопрос по теме, которую вы не поняли на уроке.</p>
+            
+            <div class="ai-chat-box" style="flex: 1; height: auto; margin-top: 5px;">
+                <div id="ai-messages" class="ai-messages-area">
+                    <div class="ai-message bot">Привет! Я виртуальный помощник по учебе. Объясню любую сложную тему, которую ты не понял. Спроси меня!</div>
+                </div>
+                <div class="ai-input-area">
+                    <input type="text" id="ai-user-input" class="cyber-input" placeholder="Например: как делить столбиком?" onkeydown="if(event.key==='Enter') sendAIMessage()">
+                    <button class="cyber-btn" type="button" onclick="sendAIMessage()" style="margin: 0; padding: 6px 14px;">Отправить</button>
+                </div>
+            </div>
+
+            <button class="cyber-btn danger-btn" type="button" onclick="closeModal('ai-modal')" style="width: 100%; margin-top: 15px;">Закрыть чат</button>
+        </div>
+    </div>
+
+    <div id="teacher-modal" class="modal hidden">
+        <div class="modal-content" style="max-width: 650px;">
+            <div class="modal-title">ПАНЕЛЬ УЧИТЕЛЯ</div>
+            <div class="modal-body">
+                <p style="margin-bottom: 10px;">Выставить баллы и оценку ученику:</p>
+                <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                    <div style="flex: 1; min-width: 200px;">
+                        <label>Ученик:</label>
+                        <select id="target-student" class="cyber-select" style="max-width: 100%; margin-top: 5px;">
+                            <option value="Быркина">Быркина</option>
+                            <option value="Полякова">Полякова</option>
+                            <option value="Махматебинова">Махматебинова</option>
+                            <option value="Амелин">Амелин</option>
+                            <option value="Мильцина">Мильцина</option>
+                            <option value="Тимохина">Тимохина</option>
+                            <option value="Зайцева">Зайцева</option>
+                            <option value="Макарова">Макарова</option>
+                            <option value="Глазков">Глазков</option>
+                            <option value="Симонов">Симонов</option>
+                            <option value="Лапшенков">Лапшенков</option>
+                            <option value="Берлов">Берлов</option>
+                            <option value="Ильинов">Ильинов</option>
+                            <option value="Бутов">Бутов</option>
+                            <option value="Безгубова">Безгубова</option>
+                            <option value="Сотникова">Сотникова</option>
+                            <option value="Курбанова">Курбанова</option>
+                            <option value="Лукашеивич">Лукашеивич</option>
+                        </select>
+                    </div>
+                    <div style="flex: 1; min-width: 150px;">
+                        <label>Оценка:</label>
+                        <select id="grade-val" class="cyber-select" style="max-width: 100%; margin-top: 5px;">
+                            <option value="5">⭐⭐⭐⭐⭐ "5" (+50б)</option>
+                            <option value="4">⭐⭐⭐⭐ "4" (+30б)</option>
+                        </select>
+                    </div>
+                </div>
+                <button class="cyber-btn" type="button" onclick="awardGrade()" style="width: 100%; margin-top: 15px;">Начислить оценку</button>
+                
+                <p style="margin-top: 25px; margin-bottom: 10px; color: var(--neon-yellow);">Журнал выставленных оценок:</p>
+                <div style="max-height: 200px; overflow-y: auto;">
+                    <table class="grades-table">
+                        <thead>
+                            <tr>
+                                <th>Ученик</th>
+                                <th>Оценка</th>
+                                <th>Баллы</th>
+                                <th>Действие</th>
+                            </tr>
+                        </thead>
+                        <tbody id="teacher-grades-list"></tbody>
+                    </table>
+                </div>
+            </div>
+            <button class="cyber-btn danger-btn" type="button" onclick="closeModal('teacher-modal')" style="width: 100%;">Закрыть панель</button>
+        </div>
+    </div>
+
     <div class="app-container">
         <h1>КЛАСС 4 "А"</h1>
         <div class="subtitle">// КИБЕР-ТЕРМИНАЛ УПРАВЛЕНИЯ</div>
         
-        <!-- ЭКРАН ВХОДА -->
         <div id="login-screen" class="cyber-panel">
             <p style="margin-bottom: 15px; color: var(--neon-green);">ИДЕНТИФИКАЦИЯ ПОЛЬЗОВАТЕЛЯ:</p>
             
@@ -264,7 +582,6 @@
             </select>
             <br>
 
-            <!-- Поле для ввода кода (скрыто по умолчанию, показывается если выбрана учительница) -->
             <div id="code-container" class="hidden">
                 <p style="margin-bottom: 8px; color: var(--neon-yellow); font-size: 0.9rem;">ВВЕДИТЕ КОД ДОСТУПА:</p>
                 <input type="password" id="access-code" class="cyber-input" placeholder="Код доступа">
@@ -274,69 +591,313 @@
             <button class="cyber-btn" type="button" onclick="loginUser()">Войти в систему</button>
         </div>
 
-        <!-- ГЛАВНЫЙ ЭКРАН (после входа) -->
         <div id="main-screen" class="hidden">
             <div class="cyber-panel">
-                <p>Добро пожаловать в систему, агент: <span id="user-display" style="color: var(--neon-yellow); font-weight: bold;"></span></p>
-                <button class="cyber-btn" type="button" onclick="activateSystem()">Проверить статус 4 "А"</button>
+                <p style="display: flex; align-items: center; justify-content: center; flex-wrap: wrap; gap: 5px;">
+                    Агент: <span id="user-display" style="color: var(--neon-yellow); font-weight: bold;"></span>
+                    <span id="excellent-badge" class="excellent-badge hidden">🏅 Отличник</span>
+                </p>
+                <p style="margin-top: 8px; color: var(--neon-green);">БАЛЛЫ КОШЕЛЬКА: <strong id="points-display" style="color: var(--neon-yellow);">0</strong></p>
+                
+                <div id="notifications-container"></div>
+
+                <div style="display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin-top: 10px;">
+                    <button class="cyber-btn" type="button" onclick="activateSystem()">Проверить статус 4 "А"</button>
+                    <button id="teacher-btn" class="cyber-btn danger-btn hidden" type="button" onclick="openTeacherModal()">Панель учителя (Оценки)</button>
+                </div>
                 <div id="output"></div>
             </div>
 
-            <!-- ЗАЛ СЛАВЫ (Отличники по годам) -->
-            <div class="cyber-panel hall-of-fame">
-                <p style="color: var(--neon-yellow); margin-bottom: 15px; text-align: center; text-transform: uppercase; letter-spacing: 1px;">// Зал славы: Отличники года</p>
+            <div class="cyber-panel">
+                <p style="color: var(--neon-green); margin-bottom: 5px; text-transform: uppercase; letter-spacing: 1px;">// СИМУЛЯТОР: Побег от школьных двоек</p>
+                <p style="font-size: 0.85rem; color: var(--text-color); margin-bottom: 10px;">Кликните или нажмите Пробел, чтобы перепрыгнуть двойку</p>
                 
-                <!-- 2023 -->
-                <div class="year-block">
-                    <div class="year-title">2023 ГОД</div>
-                    <div class="place-item">1 место: <span>Быркина</span></div>
-                    <div class="place-item">2 место: <span>Бутов</span></div>
-                    <div class="place-item">3 место: <span>???</span></div>
+                <div id="game-container" onclick="jump()">
+                    <canvas id="game-canvas" width="840" height="250"></canvas>
                 </div>
-
-                <!-- 2024 -->
-                <div class="year-block">
-                    <div class="year-title">2024 ГОД</div>
-                    <div class="place-item">1 место: <span>Быркина</span></div>
-                    <div class="place-item">2 место: <span>Бутов</span></div>
-                    <div class="place-item">3 место: <span>???</span></div>
-                </div>
-
-                <!-- 2025 -->
-                <div class="year-block">
-                    <div class="year-title">2025 ГОД</div>
-                    <div class="place-item">1 место: <span>Быркина</span></div>
-                    <div class="place-item">2 место: <span>???</span></div>
-                    <div class="place-item">3 место: <span>???</span></div>
-                </div>
-
-                <!-- 2026 -->
-                <div class="year-block">
-                    <div class="year-title">2026 ГОД</div>
-                    <div class="place-item">1 место: <span>Быркина</span></div>
-                    <div class="place-item">2 место: <span>Бутов / Юля</span></div>
-                    <div class="place-item">3 место: <span>???</span></div>
+                
+                <div class="game-ui">
+                    <span>СЧЕТ: <strong id="score-display">0</strong></span>
+                    <button class="cyber-btn" type="button" onclick="startParkour()" style="margin: 0; padding: 6px 16px; font-size: 0.85rem;">Старт / Рестарт</button>
                 </div>
             </div>
 
-            <button class="cyber-btn danger-btn" type="button" onclick="logoutUser()" style="margin-top: 25px;">Сменить пользователя</button>
+            <div class="cyber-panel">
+                <p style="color: var(--neon-yellow); margin-bottom: 5px; text-transform: uppercase; letter-spacing: 1px;">// МАГАЗИН СКИНОВ ШКОЛЬНИКА</p>
+                <p style="font-size: 0.85rem; color: var(--text-color);">Покупайте костюмы за баллы, полученные за оценки или в игре!</p>
+                
+                <div class="shop-grid">
+                    <div class="skin-card active" id="skin-card-default">
+                        <p style="font-size:0.8rem">Классик</p>
+                        <div class="skin-preview" style="background: #ff0055;"></div>
+                        <span style="font-size:0.75rem; color:var(--neon-green)">Куплено</span>
+                    </div>
+                    <div class="skin-card" id="skin-card-cyber">
+                        <p style="font-size:0.8rem">Кибер-неон</p>
+                        <div class="skin-preview" style="background: #00ffcc;"></div>
+                        <button class="cyber-btn" style="padding: 3px 8px; font-size: 0.75rem; margin-top: 5px;" onclick="buySkin('cyber', 100)">100 б.</button>
+                    </div>
+                    <div class="skin-card" id="skin-card-gold">
+                        <p style="font-size:0.8rem">Элитный Золотой</p>
+                        <div class="skin-preview" style="background: #f3e600;"></div>
+                        <button class="cyber-btn" style="padding: 3px 8px; font-size: 0.75rem; margin-top: 5px;" onclick="buySkin('gold', 250)">250 б.</button>
+                    </div>
+                </div>
+            </div>
+
+            <button class="cyber-btn danger-btn" type="button" onclick="logoutUser()" style="margin-top: 20px;">Сменить пользователя</button>
         </div>
     </div>
 
     <script>
-        // Проверка при загрузке страницы: заходил ли пользователь раньше
-        window.onload = function() {
-            const savedUser = localStorage.getItem("cyber_user_4a");
-            if (savedUser) {
-                showMainScreen(savedUser);
+        let currentUser = "";
+        let userPoints = 0;
+        let currentSkin = "default";
+        let unlockedSkins = ["default"];
+        let unreadMessages = [];
+
+        // Список отличников
+        const excellentStudents = ["Быркина", "Полякова", "Махматебинова"];
+
+        function getAllGrades() {
+            return JSON.parse(localStorage.getItem("cyber_class_grades")) || [];
+        }
+
+        function saveAllGrades(grades) {
+            localStorage.setItem("cyber_class_grades", JSON.stringify(grades));
+        }
+
+        function loadUserData(username) {
+            currentUser = username;
+            let savedData = JSON.parse(localStorage.getItem("cyber_user_" + username)) || { points: 0, skin: "default", unlocked: ["default"], messages: [] };
+            userPoints = savedData.points;
+            currentSkin = savedData.skin;
+            unlockedSkins = savedData.unlocked;
+            unreadMessages = savedData.messages || [];
+            
+            updateUIState();
+            renderNotifications();
+        }
+
+        function saveUserData() {
+            if (!currentUser) return;
+            localStorage.setItem("cyber_user_" + currentUser, JSON.stringify({
+                points: userPoints,
+                skin: currentSkin,
+                unlocked: unlockedSkins,
+                messages: unreadMessages
+            }));
+        }
+
+        function renderNotifications() {
+            let container = document.getElementById("notifications-container");
+            container.innerHTML = "";
+            if (unreadMessages.length > 0) {
+                let box = document.createElement("div");
+                box.className = "notification-box";
+                box.innerHTML = `<strong>🔔 ВНИМАНИЕ, УЧЕНИК!</strong><br>` + unreadMessages.join("<br>");
+                container.appendChild(box);
+
+                unreadMessages = [];
+                saveUserData();
             }
+        }
+
+        function updateUIState() {
+            document.getElementById("points-display").innerText = userPoints;
+            
+            ['default', 'cyber', 'gold'].forEach(skin => {
+                let card = document.getElementById("skin-card-" + skin);
+                if (!card) return;
+                if (unlockedSkins.includes(skin)) {
+                    if (currentSkin === skin) {
+                        card.className = "skin-card active";
+                        card.innerHTML = `<p style="font-size:0.8rem">${skin.toUpperCase()}</p><div class="skin-preview" style="background: ${getSkinColor(skin)};"></div><span style="font-size:0.75rem; color:var(--neon-green)">АКТИВЕН</span>`;
+                    } else {
+                        card.className = "skin-card";
+                        card.innerHTML = `<p style="font-size:0.8rem">${skin.toUpperCase()}</p><div class="skin-preview" style="background: ${getSkinColor(skin)};"></div><button class="cyber-btn" style="padding: 3px 8px; font-size: 0.75rem; margin-top: 5px;" onclick="selectSkin('${skin}')">Надеть</button>`;
+                    }
+                }
+            });
+        }
+
+        function getSkinColor(skin) {
+            if (skin === 'cyber') return '#00ffcc';
+            if (skin === 'gold') return '#f3e600';
+            return '#ff0055';
+        }
+
+        function buySkin(skin, cost) {
+            if (userPoints >= cost) {
+                userPoints -= cost;
+                unlockedSkins.push(skin);
+                currentSkin = skin;
+                saveUserData();
+                updateUIState();
+                alert("Скин успешно приобретен!");
+            } else {
+                alert("Недостаточно баллов! Получайте оценки у учителя или играйте в симулятор.");
+            }
+        }
+
+        function selectSkin(skin) {
+            currentSkin = skin;
+            saveUserData();
+            updateUIState();
+        }
+
+        const hallOfFameData = {
+            2023: `Зал славы:<br>1 место: <span class="clickable-student" onclick="selectStudentFromHall('Быркина')">Быркина</span><br>2 место: <span class="clickable-student" onclick="selectStudentFromHall('Бутов')">Бутов</span>`,
+            2024: `Зал славы:<br>1 место: <span class="clickable-student" onclick="selectStudentFromHall('Быркина')">Быркина</span><br>2 место: <span class="clickable-student" onclick="selectStudentFromHall('Бутов')">Бутов</span> / <span class="clickable-student" onclick="selectStudentFromHall('Махматебинова')">Махматебинова</span>`,
+            2025: `Зал славы:<br>1 место: <span class="clickable-student" onclick="selectStudentFromHall('Быркина')">Быркина</span><br>2 место: <span class="clickable-student" onclick="selectStudentFromHall('Махматебинова')">Махматебинова</span>`,
+            2026: `Зал славы:<br>1 место: <span class="clickable-student" onclick="selectStudentFromHall('Быркина')">Быркина</span><br>2 место: <span class="clickable-student" onclick="selectStudentFromHall('Бутов')">Бутов</span> / Юля`
         };
 
-        // Показ поля ввода кода, если выбрана Валерия Алексеевна
+        function selectStudentFromHall(name) {
+            const select = document.getElementById("surname-select");
+            select.value = name;
+            closeModal("year-modal");
+            alert(`Выбран ученик: ${name}. Можете войти в аккаунт!`);
+        }
+
+        function openYear(year) {
+            document.getElementById("modal-year-title").innerText = year + " ГОД";
+            document.getElementById("modal-year-body").innerHTML = hallOfFameData[year];
+            document.getElementById("year-modal").classList.remove("hidden");
+        }
+
+        function openAITab() {
+            document.getElementById("ai-modal").classList.remove("hidden");
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).classList.add("hidden");
+        }
+
+        function sendAIMessage() {
+            let inputField = document.getElementById("ai-user-input");
+            let text = inputField.value.trim();
+            if (!text) return;
+
+            let messagesArea = document.getElementById("ai-messages");
+
+            let userMsgDiv = document.createElement("div");
+            userMsgDiv.className = "ai-message user";
+            userMsgDiv.innerText = text;
+            messagesArea.appendChild(userMsgDiv);
+
+            inputField.value = "";
+            messagesArea.scrollTop = messagesArea.scrollHeight;
+
+            setTimeout(() => {
+                let botMsgDiv = document.createElement("div");
+                botMsgDiv.className = "ai-message bot";
+
+                let lowerText = text.toLowerCase();
+                if (lowerText.includes("гдз")) {
+                    botMsgDiv.classList.add("error-msg");
+                    botMsgDiv.innerText = "НЕТ ОТКАЗАНО!";
+                } else {
+                    botMsgDiv.innerText = generateAIExplanation(lowerText);
+                }
+
+                messagesArea.appendChild(botMsgDiv);
+                messagesArea.scrollTop = messagesArea.scrollHeight;
+            }, 500);
+        }
+
+        function generateAIExplanation(query) {
+            if (query.includes("дроб") || query.includes("делен") || query.includes("умнож")) {
+                return "Объяснение: Чтобы выполнить это действие, разбей число на простые части. Например, при делении уголком поочередно бери каждую цифру слева направо и подбирай множитель!";
+            } else if (query.includes("падеж") || query.includes("склон") || query.includes("русск")) {
+                return "Объяснение правил русского языка: Вспомни вспомогательные слова. Именительный — (есть кто/что), Родительный — (нет кого/чего), Дательный — (дать кому/чему). Задай правильный вопрос к слову!";
+            } else if (query.includes("фотосинтез") || query.includes("природ") || query.includes("окруж")) {
+                return "Объяснение по окружающему миру: Растения под воздействием солнечного света поглощают углекислый газ и выделяют чистый кислород, создавая для себя питательные вещества.";
+            } else {
+                return `Я проанализировал твой вопрос "${query}". Чтобы понять эту тему, давай разберем её шаг за шагом: выдели главное условие задачи, вспомни правило из учебника за 4 класс или обратись к учителю на уроке!`;
+            }
+        }
+
+        function openTeacherModal() {
+            renderTeacherGradesTable();
+            document.getElementById("teacher-modal").classList.remove("hidden");
+        }
+
+        function awardGrade() {
+            let student = document.getElementById("target-student").value;
+            let grade = document.getElementById("grade-val").value;
+            let addedPoints = grade === "5" ? 50 : 30;
+
+            let studentData = JSON.parse(localStorage.getItem("cyber_user_" + student)) || { points: 0, skin: "default", unlocked: ["default"], messages: [] };
+            studentData.points += addedPoints;
+            
+            if (!studentData.messages) studentData.messages = [];
+            studentData.messages.push(`Вам поставили оценку "${grade}"! Начислено +${addedPoints} баллов.`);
+            
+            localStorage.setItem("cyber_user_" + student, JSON.stringify(studentData));
+
+            let allGrades = getAllGrades();
+            let gradeId = Date.now();
+            allGrades.push({ id: gradeId, student: student, grade: grade, points: addedPoints });
+            saveAllGrades(allGrades);
+
+            alert(`Успешно! Ученику ${student} выставлена оценка "${grade}" (+${addedPoints} баллов).`);
+            renderTeacherGradesTable();
+
+            if (currentUser === student) {
+                loadUserData(currentUser);
+            }
+        }
+
+        function deleteGrade(gradeId) {
+            let allGrades = getAllGrades();
+            let index = allGrades.findIndex(g => g.id === gradeId);
+            if (index !== -1) {
+                let item = allGrades[index];
+                
+                let studentData = JSON.parse(localStorage.getItem("cyber_user_" + item.student));
+                if (studentData) {
+                    studentData.points = Math.max(0, studentData.points - item.points);
+                    if (!studentData.messages) studentData.messages = [];
+                    studentData.messages.push(`Учитель аннулировал вашу оценку "${item.grade}". Списано -${item.points} баллов.`);
+                    localStorage.setItem("cyber_user_" + item.student, JSON.stringify(studentData));
+                }
+
+                allGrades.splice(index, 1);
+                saveAllGrades(allGrades);
+                renderTeacherGradesTable();
+                
+                if (currentUser === item.student) {
+                    loadUserData(currentUser);
+                }
+            }
+        }
+
+        function renderTeacherGradesTable() {
+            let tbody = document.getElementById("teacher-grades-list");
+            tbody.innerHTML = "";
+            let allGrades = getAllGrades();
+
+            if (allGrades.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="4" style="text-align:center; color:#8080a0;">Журнал пуст</td></tr>`;
+                return;
+            }
+
+            allGrades.forEach(g => {
+                let tr = document.createElement("tr");
+                tr.innerHTML = `
+                    <td>${g.student}</td>
+                    <td style="color:var(--neon-yellow); font-weight:bold;">${g.grade}</td>
+                    <td style="color:var(--neon-green);">+${g.points}</td>
+                    <td><button class="cyber-btn danger-btn" style="padding: 2px 6px; font-size: 0.75rem; margin:0;" onclick="deleteGrade(${g.id})">Удалить</button></td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
         function checkTeacherSelection() {
             const select = document.getElementById("surname-select");
             const codeContainer = document.getElementById("code-container");
-            
             if (select.value === "Валерия Алексеевна") {
                 codeContainer.classList.remove("hidden");
             } else {
@@ -345,68 +906,227 @@
             }
         }
 
-        // Функция входа
         function loginUser() {
             const select = document.getElementById("surname-select");
             const selectedValue = select.value;
-
             if (!selectedValue) {
-                alert("Ошибка: выберите фамилию или учителя из списка!");
+                alert("Выберите фамилию или учителя!");
                 return;
             }
-
-            // Проверка кода для учителя
-            if (selectedValue === "Валерия Алексеевна") {
-                const codeInput = document.getElementById("access-code").value;
-                if (codeInput !== "4А359") {
-                    alert("Ошибка: неверный код доступа!");
-                    return;
-                }
+            if (selectedValue === "Валерия Алексеевна" && document.getElementById("access-code").value !== "4А359") {
+                alert("Неверный код доступа!");
+                return;
             }
-
-            // Сохраняем в память браузера
-            localStorage.setItem("cyber_user_4a", selectedValue);
             showMainScreen(selectedValue);
         }
 
-        // Показать главный экран и скрыть логин
         function showMainScreen(username) {
             document.getElementById("login-screen").classList.add("hidden");
             document.getElementById("main-screen").classList.remove("hidden");
             document.getElementById("user-display").innerText = username;
+
+            // Проверка наличия статуса "Отличник"
+            const badge = document.getElementById("excellent-badge");
+            if (excellentStudents.includes(username)) {
+                badge.classList.remove("hidden");
+            } else {
+                badge.classList.add("hidden");
+            }
+            
+            if (username === "Валерия Алексеевна") {
+                document.getElementById("teacher-btn").classList.remove("hidden");
+            } else {
+                document.getElementById("teacher-btn").classList.add("hidden");
+            }
+
+            loadUserData(username);
+            setTimeout(initGame, 50);
         }
 
-        // Функция выхода (сброс данных)
         function logoutUser() {
-            localStorage.removeItem("cyber_user_4a");
             document.getElementById("main-screen").classList.add("hidden");
             document.getElementById("login-screen").classList.remove("hidden");
             document.getElementById("surname-select").value = "";
             document.getElementById("code-container").classList.add("hidden");
-            document.getElementById("access-code").value = "";
-            document.getElementById("output").innerText = "";
+            isGameRunning = false;
         }
 
-        // Кнопка статуса класса
         function activateSystem() {
-            const messages = [
-                "4 'А' готов к захвату школы!",
-                "Уровень крутизны класса: 100%",
-                "Внимание: обнаружен высокий уровень позитива!",
-                "Системы каникул работают стабильно."
-            ];
+            const msgs = ["4 'А' готов к победам!", "Уровень позитива: 100%", "Системы терминала работают стабильно."];
+            document.getElementById("output").innerText = `> ${msgs[Math.floor(Math.random() * msgs.length)]}`;
+        }
+
+        let canvas, ctx;
+        let gameScore = 0;
+        let isGameRunning = false;
+        let gravity = 0.6;
+
+        let player = {
+            x: 60,
+            y: 170,
+            width: 28,
+            height: 48,
+            dy: 0,
+            jumpPower: -11,
+            grounded: true
+        };
+
+        let obstacles = [];
+        let gameSpeed = 5.5;
+        let spawnTimer = 0;
+
+        function initGame() {
+            canvas = document.getElementById("game-canvas");
+            if (!canvas) return;
+            ctx = canvas.getContext("2d");
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = "#00ffcc";
+            ctx.font = "14px 'Courier New'";
+            ctx.textAlign = "center";
+            ctx.fillText("НАЖМИТЕ «СТАРТ» ДЛЯ ЗАПУСКА СИМУЛЯЦИИ ПАРКУРА", canvas.width / 2, canvas.height / 2 - 10);
+            ctx.fillStyle = "#8080a0";
+            ctx.font = "11px 'Courier New'";
+            ctx.fillText("Помогите ученику 4 «А» перепрыгнуть все преграды", canvas.width / 2, canvas.height / 2 + 15);
+            ctx.textAlign = "left";
+        }
+
+        function startParkour() {
+            if (!canvas) canvas = document.getElementById("game-canvas");
+            if (!ctx) ctx = canvas.getContext("2d");
             
-            const randomMsg = messages[Math.floor(Math.random() * messages.length)];
-            const outputDiv = document.getElementById("output");
-            
-            outputDiv.style.opacity = 0;
-            outputDiv.innerText = `> ${randomMsg}`;
-            
-            setTimeout(() => {
-                outputDiv.style.transition = "opacity 0.5s";
-                outputDiv.style.opacity = 1;
-            }, 50);
+            gameScore = 0;
+            gameSpeed = 5.5;
+            obstacles = [];
+            player.y = 170;
+            player.dy = 0;
+            isGameRunning = true;
+            loop();
+        }
+
+        function jump() {
+            if (!isGameRunning) {
+                startParkour();
+                return;
+            }
+            if (player.grounded) {
+                player.dy = player.jumpPower;
+                player.grounded = false;
+            }
+        }
+
+        window.addEventListener("keydown", function(e) {
+            if (e.code === "Space" && !document.getElementById("main-screen").classList.contains("hidden")) {
+                e.preventDefault();
+                jump();
+            }
+        });
+
+        function spawnObstacle() {
+            let height = Math.random() * 35 + 28;
+            obstacles.push({
+                x: canvas.width,
+                y: 218 - height,
+                width: 26,
+                height: height
+            });
+        }
+
+        function loop() {
+            if (!isGameRunning) return;
+
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            ctx.strokeStyle = "#00ffcc";
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            ctx.moveTo(0, 218);
+            ctx.lineTo(canvas.width, 218);
+            ctx.stroke();
+
+            player.dy += gravity;
+            player.y += player.dy;
+
+            if (player.y > 170) {
+                player.y = 170;
+                player.dy = 0;
+                player.grounded = true;
+            }
+
+            let bodyColor = "#ff0055";
+            let accentColor = "#00ffcc";
+            if (currentSkin === 'cyber') { bodyColor = "#00ffcc"; accentColor = "#ff0055"; }
+            if (currentSkin === 'gold') { bodyColor = "#f3e600"; accentColor = "#ffffff"; }
+
+            ctx.fillStyle = accentColor;
+            ctx.fillRect(player.x - 6, player.y + 12, 8, 20);
+
+            ctx.fillStyle = bodyColor;
+            ctx.fillRect(player.x, player.y + 14, player.width, player.height - 18);
+
+            ctx.fillStyle = "#ffccaa";
+            ctx.fillRect(player.x + 6, player.y + 2, 16, 14);
+            ctx.fillStyle = bodyColor;
+            ctx.fillRect(player.x + 4, player.y, 20, 5);
+
+            ctx.fillStyle = "#333355";
+            ctx.fillRect(player.x + 4, player.y + 44, 8, 4);
+            ctx.fillRect(player.x + 16, player.y + 44, 8, 4);
+
+            spawnTimer++;
+            if (spawnTimer > 75) {
+                spawnObstacle();
+                spawnTimer = 0;
+            }
+
+            for (let i = obstacles.length - 1; i >= 0; i--) {
+                let obs = obstacles[i];
+                obs.x -= gameSpeed;
+
+                ctx.fillStyle = "rgba(255, 0, 85, 0.15)";
+                ctx.fillRect(obs.x, obs.y, obs.width, obs.height);
+                ctx.strokeStyle = "#ff0055";
+                ctx.lineWidth = 2;
+                ctx.strokeRect(obs.x, obs.y, obs.width, obs.height);
+
+                ctx.fillStyle = "#ff0055";
+                ctx.font = "bold 18px 'Courier New'";
+                ctx.fillText("2", obs.x + 5, obs.y + obs.height / 2 + 6);
+
+                if (
+                    player.x < obs.x + obs.width &&
+                    player.x + player.width > obs.x &&
+                    player.y < obs.y + obs.height &&
+                    player.y + player.height > obs.y
+                ) {
+                    isGameRunning = false;
+                    
+                    let earnedBonus = Math.floor(gameScore / 10);
+                    if (earnedBonus > 0 && currentUser !== "Валерия Алексеевна") {
+                        userPoints += earnedBonus;
+                        saveUserData();
+                        updateUIState();
+                    }
+
+                    ctx.fillStyle = "rgba(3, 3, 8, 0.9)";
+                    ctx.fillRect(0, 0, canvas.width, canvas.height);
+                    ctx.fillStyle = "#ff0055";
+                    ctx.font = "bold 16px 'Courier New'";
+                    ctx.textAlign = "center";
+                    ctx.fillText(`ПОЛУЧЕНА ДВОЙКА! +${earnedBonus} БАЛЛОВ`, canvas.width / 2, canvas.height / 2);
+                    ctx.textAlign = "left";
+                    return;
+                }
+
+                if (obs.x + obs.width < 0) {
+                    obstacles.splice(i, 1);
+                    gameScore += 15;
+                    gameSpeed += 0.08;
+                }
+            }
+
+            document.getElementById("score-display").innerText = gameScore;
+            requestAnimationFrame(loop);
         }
     </script>
 </body>
-</html>
+    </html>
