@@ -15,6 +15,28 @@
             --border-color: rgba(0, 255, 204, 0.25);
         }
 
+        /* ТЕМА 2: МАТРИЦА */
+        body.theme-matrix {
+            --bg-color: #020d05;
+            --panel-bg: rgba(0, 255, 65, 0.04);
+            --neon-green: #00ff41;
+            --neon-pink: #008f11;
+            --neon-yellow: #aaffaa;
+            --text-color: #b0f0b0;
+            --border-color: rgba(0, 255, 65, 0.3);
+        }
+
+        /* ТЕМА 3: КОСМОС */
+        body.theme-space {
+            --bg-color: #080417;
+            --panel-bg: rgba(157, 0, 255, 0.05);
+            --neon-green: #9d00ff;
+            --neon-pink: #00d4ff;
+            --neon-yellow: #ff00ea;
+            --text-color: #e0d0f0;
+            --border-color: rgba(157, 0, 255, 0.3);
+        }
+
         * {
             box-sizing: border-box;
             margin: 0;
@@ -32,6 +54,7 @@
             padding: 15px;
             overflow-x: hidden;
             position: relative;
+            transition: background-color 0.5s ease;
         }
 
         body::before {
@@ -183,7 +206,6 @@
             box-shadow: 0 0 8px var(--neon-green);
         }
 
-        /* Стиль таблички "Отличник" */
         .excellent-badge {
             display: inline-flex;
             align-items: center;
@@ -432,6 +454,37 @@
             border-radius: 2px;
         }
 
+        /* Стиль Колеса Фортуны */
+        .wheel-box {
+            position: relative;
+            width: 200px;
+            height: 200px;
+            margin: 20px auto;
+            border-radius: 50%;
+            border: 4px solid var(--neon-yellow);
+            box-shadow: 0 0 20px var(--neon-yellow);
+            overflow: hidden;
+            transition: transform 4s cubic-bezier(0.15, 0.95, 0.35, 1);
+        }
+
+        .wheel-pointer {
+            position: absolute;
+            top: 15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 0;
+            border-left: 12px solid transparent;
+            border-right: 12px solid transparent;
+            border-top: 20px solid var(--neon-pink);
+            z-index: 10;
+        }
+
+        .wheel-svg {
+            width: 100%;
+            height: 100%;
+        }
+
         .hidden {
             display: none !important;
         }
@@ -449,7 +502,7 @@
         <span class="news-title">[ НОВОСТИ ]:</span>
         <div class="news-content">
             <span class="news-track">
-                ⚡ 31 мая: Ура каникулы! &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ⚡ 1 сентября: День знаний! &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ⚡ Добавлена вкладка ИИ-репетитора для сложных тем!
+                ⚡ 31 мая: Ура каникулы! &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ⚡ 1 сентября: День знаний! &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ⚡ Добавлено Колесо фортуны и выбор тем оформлении!
             </span>
         </div>
     </div>
@@ -467,6 +520,32 @@
             <div id="modal-year-title" class="modal-title">ГОД</div>
             <div id="modal-year-body" class="modal-body"></div>
             <button class="cyber-btn" type="button" onclick="closeModal('year-modal')">Закрыть</button>
+        </div>
+    </div>
+
+    <!-- Модальное окно Колеса Фортуны -->
+    <div id="wheel-modal" class="modal hidden">
+        <div class="modal-content" style="max-width: 450px;">
+            <div class="modal-title">🎡 ЕЖЕДНЕВНОЕ КОЛЕСО ФОРТУНЫ</div>
+            <p style="font-size: 0.85rem; color: var(--text-color);">Крутите колесо раз в сутки и получайте бонусные баллы!</p>
+            
+            <div style="position: relative; display: inline-block;">
+                <div class="wheel-pointer"></div>
+                <div id="wheel-disc" class="wheel-box">
+                    <svg class="wheel-svg" viewBox="0 0 100 100">
+                        <path d="M50,50 L50,0 A50,50 0 0,1 100,50 Z" fill="#ff0055"/>
+                        <path d="M50,50 L100,50 A50,50 0 0,1 50,100 Z" fill="#00ffcc"/>
+                        <path d="M50,50 L50,100 A50,50 0 0,1 0,50 Z" fill="#f3e600"/>
+                        <path d="M50,50 L0,50 A50,50 0 0,1 50,0 Z" fill="#9d00ff"/>
+                        <circle cx="50" cy="50" r="10" fill="#030308"/>
+                    </svg>
+                </div>
+            </div>
+
+            <div id="wheel-result" style="color: var(--neon-yellow); font-weight: bold; margin-bottom: 10px;"></div>
+
+            <button id="spin-btn" class="cyber-btn" type="button" onclick="spinWheel()" style="width: 100%;">Вращать колесо!</button>
+            <button class="cyber-btn danger-btn" type="button" onclick="closeModal('wheel-modal')" style="width: 100%; margin-top: 10px;">Закрыть</button>
         </div>
     </div>
 
@@ -603,6 +682,7 @@
 
                 <div style="display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin-top: 10px;">
                     <button class="cyber-btn" type="button" onclick="activateSystem()">Проверить статус 4 "А"</button>
+                    <button class="cyber-btn" type="button" onclick="openWheelModal()">🎡 Колесо фортуны</button>
                     <button id="teacher-btn" class="cyber-btn danger-btn hidden" type="button" onclick="openTeacherModal()">Панель учителя (Оценки)</button>
                 </div>
                 <div id="output"></div>
@@ -623,9 +703,10 @@
             </div>
 
             <div class="cyber-panel">
-                <p style="color: var(--neon-yellow); margin-bottom: 5px; text-transform: uppercase; letter-spacing: 1px;">// МАГАЗИН СКИНОВ ШКОЛЬНИКА</p>
-                <p style="font-size: 0.85rem; color: var(--text-color);">Покупайте костюмы за баллы, полученные за оценки или в игре!</p>
+                <p style="color: var(--neon-yellow); margin-bottom: 5px; text-transform: uppercase; letter-spacing: 1px;">// МАГАЗИН СКИНОВ И ТЕМ</p>
                 
+                <!-- Скины -->
+                <p style="font-size: 0.85rem; color: var(--text-color); margin-top: 10px;">1. Костюмы персонажа:</p>
                 <div class="shop-grid">
                     <div class="skin-card active" id="skin-card-default">
                         <p style="font-size:0.8rem">Классик</p>
@@ -643,6 +724,26 @@
                         <button class="cyber-btn" style="padding: 3px 8px; font-size: 0.75rem; margin-top: 5px;" onclick="buySkin('gold', 250)">250 б.</button>
                     </div>
                 </div>
+
+                <!-- Темы Оформления -->
+                <p style="font-size: 0.85rem; color: var(--text-color); margin-top: 20px;">2. Темы оформления терминала:</p>
+                <div class="shop-grid">
+                    <div class="skin-card active" id="theme-card-default">
+                        <p style="font-size:0.8rem">Кибер Неон</p>
+                        <div style="width:20px; height:20px; background:#00ffcc; border-radius:50%; margin:8px auto;"></div>
+                        <button class="cyber-btn" style="padding: 3px 8px; font-size: 0.75rem;" onclick="setAppTheme('default')">Включить</button>
+                    </div>
+                    <div class="skin-card" id="theme-card-matrix">
+                        <p style="font-size:0.8rem">Матрица</p>
+                        <div style="width:20px; height:20px; background:#00ff41; border-radius:50%; margin:8px auto;"></div>
+                        <button class="cyber-btn" style="padding: 3px 8px; font-size: 0.75rem;" onclick="buyTheme('matrix', 150)">150 б.</button>
+                    </div>
+                    <div class="skin-card" id="theme-card-space">
+                        <p style="font-size:0.8rem">Космос</p>
+                        <div style="width:20px; height:20px; background:#9d00ff; border-radius:50%; margin:8px auto;"></div>
+                        <button class="cyber-btn" style="padding: 3px 8px; font-size: 0.75rem;" onclick="buyTheme('space', 200)">200 б.</button>
+                    </div>
+                </div>
             </div>
 
             <button class="cyber-btn danger-btn" type="button" onclick="logoutUser()" style="margin-top: 20px;">Сменить пользователя</button>
@@ -650,13 +751,22 @@
     </div>
 
     <script>
+        // Слушатель событий для автоматического обновления данных во всех вкладках
+        window.addEventListener('storage', function(e) {
+            if (currentUser) {
+                loadUserData(currentUser);
+            }
+        });
+
         let currentUser = "";
         let userPoints = 0;
         let currentSkin = "default";
         let unlockedSkins = ["default"];
+        let currentTheme = "default";
+        let unlockedThemes = ["default"];
+        let lastWheelSpin = 0;
         let unreadMessages = [];
 
-        // Список отличников
         const excellentStudents = ["Быркина", "Полякова", "Махматебинова"];
 
         function getAllGrades() {
@@ -669,12 +779,25 @@
 
         function loadUserData(username) {
             currentUser = username;
-            let savedData = JSON.parse(localStorage.getItem("cyber_user_" + username)) || { points: 0, skin: "default", unlocked: ["default"], messages: [] };
+            let savedData = JSON.parse(localStorage.getItem("cyber_user_" + username)) || { 
+                points: 0, 
+                skin: "default", 
+                unlocked: ["default"],
+                theme: "default",
+                unlockedThemes: ["default"],
+                lastSpin: 0,
+                messages: [] 
+            };
+            
             userPoints = savedData.points;
             currentSkin = savedData.skin;
             unlockedSkins = savedData.unlocked;
+            currentTheme = savedData.theme || "default";
+            unlockedThemes = savedData.unlockedThemes || ["default"];
+            lastWheelSpin = savedData.lastSpin || 0;
             unreadMessages = savedData.messages || [];
             
+            setAppTheme(currentTheme, false);
             updateUIState();
             renderNotifications();
         }
@@ -685,6 +808,9 @@
                 points: userPoints,
                 skin: currentSkin,
                 unlocked: unlockedSkins,
+                theme: currentTheme,
+                unlockedThemes: unlockedThemes,
+                lastSpin: lastWheelSpin,
                 messages: unreadMessages
             }));
         }
@@ -706,6 +832,7 @@
         function updateUIState() {
             document.getElementById("points-display").innerText = userPoints;
             
+            // Скины
             ['default', 'cyber', 'gold'].forEach(skin => {
                 let card = document.getElementById("skin-card-" + skin);
                 if (!card) return;
@@ -719,6 +846,45 @@
                     }
                 }
             });
+
+            // Темы
+            ['default', 'matrix', 'space'].forEach(theme => {
+                let card = document.getElementById("theme-card-" + theme);
+                if (!card) return;
+                let color = theme === 'matrix' ? '#00ff41' : (theme === 'space' ? '#9d00ff' : '#00ffcc');
+                if (unlockedThemes.includes(theme)) {
+                    if (currentTheme === theme) {
+                        card.className = "skin-card active";
+                        card.innerHTML = `<p style="font-size:0.8rem">${theme.toUpperCase()}</p><div style="width:20px; height:20px; background:${color}; border-radius:50%; margin:8px auto;"></div><span style="font-size:0.75rem; color:var(--neon-green)">АКТИВНА</span>`;
+                    } else {
+                        card.className = "skin-card";
+                        card.innerHTML = `<p style="font-size:0.8rem">${theme.toUpperCase()}</p><div style="width:20px; height:20px; background:${color}; border-radius:50%; margin:8px auto;"></div><button class="cyber-btn" style="padding: 3px 8px; font-size: 0.75rem;" onclick="setAppTheme('${theme}')">Включить</button>`;
+                    }
+                }
+            });
+        }
+
+        function setAppTheme(theme, save = true) {
+            document.body.className = "";
+            if (theme !== "default") {
+                document.body.classList.add("theme-" + theme);
+            }
+            currentTheme = theme;
+            if (save) {
+                saveUserData();
+                updateUIState();
+            }
+        }
+
+        function buyTheme(theme, cost) {
+            if (userPoints >= cost) {
+                userPoints -= cost;
+                unlockedThemes.push(theme);
+                setAppTheme(theme);
+                alert("Тема оформлена и активирована!");
+            } else {
+                alert("Недостаточно баллов для покупки темы!");
+            }
         }
 
         function getSkinColor(skin) {
@@ -736,7 +902,7 @@
                 updateUIState();
                 alert("Скин успешно приобретен!");
             } else {
-                alert("Недостаточно баллов! Получайте оценки у учителя или играйте в симулятор.");
+                alert("Недостаточно баллов!");
             }
         }
 
@@ -744,6 +910,44 @@
             currentSkin = skin;
             saveUserData();
             updateUIState();
+        }
+
+        // Колесо фортуны
+        function openWheelModal() {
+            document.getElementById("wheel-result").innerText = "";
+            document.getElementById("wheel-modal").classList.remove("hidden");
+            
+            let now = Date.now();
+            let btn = document.getElementById("spin-btn");
+            if (now - lastWheelSpin < 24 * 60 * 60 * 1000) {
+                let hoursLeft = Math.ceil((24 * 60 * 60 * 1000 - (now - lastWheelSpin)) / (1000 * 60 * 60));
+                btn.disabled = true;
+                document.getElementById("wheel-result").innerText = `Следующее вращение через ~${hoursLeft} ч.`;
+            } else {
+                btn.disabled = false;
+            }
+        }
+
+        function spinWheel() {
+            let disc = document.getElementById("wheel-disc");
+            let btn = document.getElementById("spin-btn");
+            btn.disabled = true;
+
+            let prizes = [10, 25, 50, 100];
+            let prizeIndex = Math.floor(Math.random() * prizes.length);
+            let winAmount = prizes[prizeIndex];
+
+            let randomDegrees = 1440 + (prizeIndex * 90) + 45;
+            disc.style.transform = `rotate(${randomDegrees}deg)`;
+
+            setTimeout(() => {
+                userPoints += winAmount;
+                lastWheelSpin = Date.now();
+                saveUserData();
+                updateUIState();
+
+                document.getElementById("wheel-result").innerText = `ПОЗДРАВЛЯЕМ! Вы выиграли +${winAmount} баллов! 🎉`;
+            }, 4000);
         }
 
         const hallOfFameData = {
@@ -772,6 +976,11 @@
 
         function closeModal(modalId) {
             document.getElementById(modalId).classList.add("hidden");
+            
+            // Автоматически обновляем экран, если была закрыта панель учителя
+            if (modalId === "teacher-modal" && currentUser) {
+                loadUserData(currentUser);
+            }
         }
 
         function sendAIMessage() {
@@ -925,7 +1134,6 @@
             document.getElementById("main-screen").classList.remove("hidden");
             document.getElementById("user-display").innerText = username;
 
-            // Проверка наличия статуса "Отличник"
             const badge = document.getElementById("excellent-badge");
             if (excellentStudents.includes(username)) {
                 badge.classList.remove("hidden");
@@ -948,6 +1156,7 @@
             document.getElementById("login-screen").classList.remove("hidden");
             document.getElementById("surname-select").value = "";
             document.getElementById("code-container").classList.add("hidden");
+            document.body.className = "";
             isGameRunning = false;
         }
 
@@ -1129,4 +1338,4 @@
         }
     </script>
 </body>
-    </html>
+                            </html>
